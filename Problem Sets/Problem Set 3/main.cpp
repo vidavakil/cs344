@@ -104,7 +104,7 @@ int main(int argc, char **argv) {
   postProcess(output_file, numRows, numCols, min_logLum, max_logLum);
 
   for (size_t i = 1; i < numCols * numRows; ++i) {
-	min_logLum = std::min(h_luminance[i], min_logLum);
+    min_logLum = std::min(h_luminance[i], min_logLum);
     max_logLum = std::max(h_luminance[i], max_logLum);
   }
 

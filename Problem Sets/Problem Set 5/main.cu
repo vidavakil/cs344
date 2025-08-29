@@ -17,7 +17,7 @@
 
 #include "reference_calc.h"
 
-void computeHistogram(const unsigned int *const d_vals,
+void computeHistogram(unsigned int *const d_vals,  // Vida: removed const
                       unsigned int* const d_histo,
                       const unsigned int numBins,
                       const unsigned int numElems);
@@ -25,7 +25,7 @@ void computeHistogram(const unsigned int *const d_vals,
 int main(void)
 {
   const unsigned int numBins = 1024;
-  const unsigned int numElems = 10000 * numBins;
+  const unsigned int numElems = 65536 * numBins;
   const float stddev = 100.f;
 
   unsigned int *vals = new unsigned int[numElems];
@@ -51,7 +51,8 @@ int main(void)
 
   thrust::minstd_rand rng;
 
-  thrust::random::experimental::normal_distribution<float> normalDist((float)mean, stddev);
+  // thrust::random::experimental::normal_distribution<float> normalDist((float)mean, stddev);
+  thrust::random::normal_distribution<float> normalDist((float)mean, stddev);
 
   // Generate the random values
   for (size_t i = 0; i < numElems; ++i) {
@@ -71,7 +72,7 @@ int main(void)
   timer.Start();
   computeHistogram(d_vals, d_histo, numBins, numElems);
   timer.Stop();
-  int err = printf("Your code ran in: %f msecs.\n", timer.Elapsed());
+  int err = printf("Your ComputeHistogram code ran in: %f msecs.\n", timer.Elapsed());
 
   if (err < 0) {
     //Couldn't print! Probably the student closed stdout - bad news
